@@ -24,8 +24,9 @@ public class HelloStateServlet extends HttpServlet   {
         response.setHeader("Content-disposition", "attachment; filename=sample.txt");
         
         //PrintWriter out = response.getWriter();
-        File file = ResourceUtils.getFile("classpath:abc.txt");
-        InputStream inPut = new FileInputStream(file);
+        //File file = ResourceUtils.getFile("abc.txt");
+        //InputStream inPut = new FileInputStream(file);
+        InputStream inPut = getClass().getResourceAsStream("abc.txt");
         ServletOutputStream outStream = response.getOutputStream();
 		/*
 		System.out.println("\n : ");
