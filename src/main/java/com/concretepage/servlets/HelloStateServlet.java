@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.util.ResourceUtils;
 
 import java.io.*;
@@ -26,7 +28,9 @@ public class HelloStateServlet extends HttpServlet   {
         //PrintWriter out = response.getWriter();
         //File file = ResourceUtils.getFile("abc.txt");
         //InputStream inPut = new FileInputStream(file);
-        InputStream inPut = getClass().getResourceAsStream("abc.txt");
+        //InputStream inPut = getClass().getResourceAsStream("abc.txt");
+        Resource resource = new ClassPathResource("classpath:abc.txt");
+        InputStream inPut = resource.getInputStream();
         ServletOutputStream outStream = response.getOutputStream();
 		/*
 		System.out.println("\n : ");
