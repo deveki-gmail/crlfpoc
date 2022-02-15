@@ -23,7 +23,7 @@ public class WebConfig {
    public ServletRegistrationBean<HttpServlet> stateServlet() {
 	   ServletRegistrationBean<HttpServlet> servRegBean = new ServletRegistrationBean<>();
 	   servRegBean.setServlet(new HelloStateServlet());
-	   servRegBean.addUrlMappings("/state/*");
+	   servRegBean.addUrlMappings("/download/*");
 	   servRegBean.setLoadOnStartup(1);
 	   return servRegBean;
    }   
