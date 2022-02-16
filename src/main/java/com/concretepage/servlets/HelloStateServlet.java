@@ -43,8 +43,8 @@ public class HelloStateServlet extends HttpServlet   {
 		}*/
 		byte[] bData = new byte[100];
 		int iRead = inPut.read(bData);
-		
-		
+		bData = changeIfRequired(bData);
+		/*
 		if(bData!=null && bData.length > 0){
 			
 			for(byte b=0; b < bData.length; b++){
@@ -55,19 +55,22 @@ public class HelloStateServlet extends HttpServlet   {
 				}
 			}
 			
-		}
+		}*/
 		int i = -1;
 		while(iRead != -1){
 			outStream.write(bData, 0, iRead);
 			iRead = inPut.read(bData);
-			
+			if(iRead != -1) {
+				bData = changeIfRequired(bData);
+			}
+			/*
 			for(byte b=0; b < bData.length; b++){
 				if(bData[b] == 10){
 					bData[b]=13;
 					b++;
 					bData[b]=10;
 				}
-			}
+			}*/
 			
 		}	
 		
@@ -75,5 +78,23 @@ public class HelloStateServlet extends HttpServlet   {
 		outStream.flush();
 		outStream.close();
 		
+    }
+	private byte[] changeIfRequired(byte[] original){
+    	final byte[] transformed = new byte[original.length * 2];
+    	int len = 0;
+    	for(int i=0; i < original.length; i++){
+    		transformed[len] = original[i];
+    		len++;
+    		if(original[i] == (byte) '\n'){         
+    		  if (i + 1 < original.length && original[i+1] != (byte) '\r'){   // ... and that character is not a \n ...
+    			  transformed[i] = (byte) '\r';
+    			  transformed[len] = (byte) '\n';    // ... insert a \n
+    		      len++;                             // ... being sure to track the number of bytes written
+    		  }
+    		}// end outer if
+    	}// enf outer for 
+    	final byte[] result = new byte[len];              // prepare an exact sized array
+    	System.arraycopy(transformed, 0, result, 0, len);
+    	return transformed;
     }
 } 
