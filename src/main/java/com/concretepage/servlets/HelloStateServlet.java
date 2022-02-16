@@ -79,22 +79,23 @@ public class HelloStateServlet extends HttpServlet   {
 		outStream.close();
 		
     }
-	private byte[] changeIfRequired(byte[] original){
-    	final byte[] transformed = new byte[original.length * 2];
+	private static byte[] changeIfRequired(byte[] original){
+		final byte[] transformed = new byte[original.length * 2];
     	int len = 0;
     	for(int i=0; i < original.length; i++){
-    		transformed[len] = original[i];
-    		len++;
-    		if(original[i] == (byte) '\n'){         
-    		  if (i + 1 < original.length && original[i+1] != (byte) '\r'){   // ... and that character is not a \n ...
-    			  transformed[i] = (byte) '\r';
-    			  transformed[len] = (byte) '\n';    // ... insert a \n
-    		      len++;                             // ... being sure to track the number of bytes written
-    		  }
-    		}// end outer if
-    	}// enf outer for 
+    		byte val = original[i];
+    		if(val == (byte) '\n'){   
+    			transformed[len] = (byte) '\r';
+    			len++;
+    			transformed[len] = (byte) '\n';    // ... insert a \n
+    		    len++;                             // ... being sure to track the number of bytes written
+    		}else{
+    			transformed[len] = val;
+    			len++;
+    		}
+    	} 
     	final byte[] result = new byte[len];              // prepare an exact sized array
     	System.arraycopy(transformed, 0, result, 0, len);
-    	return transformed;
+    	return result;
     }
 } 
