@@ -94,8 +94,11 @@ public class HelloStateServlet extends HttpServlet   {
     			len++;
     		}
     	} 
-    	final byte[] result = new byte[len];              // prepare an exact sized array
-    	System.arraycopy(transformed, 0, result, 0, len);
+    	final byte[] result = new byte[len-1];              // prepare an exact sized array
+    	//System.arraycopy(transformed, 0, result, 0, len);
+    	for(int i=0; i < result.length; i++){
+    		result[i] = original[i];
+    	}
     	return result;
     }
 } 
