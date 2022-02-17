@@ -37,15 +37,20 @@ public class HelloStateServlet extends HttpServlet   {
         InputStream inPut = resource.getInputStream();
         ServletOutputStream outStream = response.getOutputStream();
 		
-		byte[] bData = new byte[1024];
+        byte[] bData = new byte[1024];
 		int iRead = inPut.read(bData);
-		bData = changeIfRequired(bData);
-		
+		byte[] tempByteArray = new byte[iRead];
+		System.arraycopy(bData, 0, tempByteArray, 0, iRead);
+		bData = tempByteArray;
+		bData = changeIfRequired(bData, iRead);
 		while(iRead != -1){
-			outStream.write(bData, 0, iRead);
+			outStream.write(bData, 0, bData.length);
 			iRead = inPut.read(bData);
 			if(iRead != -1) {
-				bData = changeIfRequired(bData);
+				tempByteArray = new byte[iRead];
+				System.arraycopy(bData, 0, tempByteArray, 0, iRead);
+				bData = tempByteArray;
+				bData = changeIfRequired(bData, iRead);
 			}
 		}	
 		
@@ -54,10 +59,10 @@ public class HelloStateServlet extends HttpServlet   {
 		outStream.close();
 		
     }
-	private static byte[] changeIfRequired(byte[] original){
-		final byte[] transformed = new byte[original.length * 2];
+    private static byte[] changeIfRequired(byte[] original, int read){
+		final byte[] transformed = new byte[read * 2];
     	int len = 0;
-    	for(int i=0; i < original.length; i++){
+    	for(int i=0; i < read; i++){
     		byte val = original[i];
     		if(val == (byte) '\n'){   
     			transformed[len] = (byte) '\r';
@@ -69,11 +74,9 @@ public class HelloStateServlet extends HttpServlet   {
     			len++;
     		}
     	} 
+    	len = len - 1;
     	final byte[] result = new byte[len];              // prepare an exact sized array
     	System.arraycopy(transformed, 0, result, 0, len);
-    	//for(int i=0; i < result.length; i++){
-    	//	result[i] = original[i];
-    	//}
     	return result;
     }
 } 
