@@ -24,7 +24,6 @@ public class HelloStateServlet extends HttpServlet   {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/plain");
         response.setHeader("Content-disposition", "attachment; filename=sample.txt");
-        
         //PrintWriter out = response.getWriter();
         //File file = ResourceUtils.getFile("abc.txt");
         //InputStream inPut = new FileInputStream(file);
@@ -32,46 +31,17 @@ public class HelloStateServlet extends HttpServlet   {
         Resource resource = new ClassPathResource("classpath:abc1.txt");
         InputStream inPut = resource.getInputStream();
         ServletOutputStream outStream = response.getOutputStream();
-		/*
-		System.out.println("\n : ");
-		for(byte b : "\n".getBytes(StandardCharsets.UTF_8)){
-			System.out.println(b);
-		}
-		System.out.println("\r\n : ");
-		for(byte b : "\r\n".getBytes(StandardCharsets.UTF_8)){
-			System.out.println(b);
-		}*/
+		
 		byte[] bData = new byte[1024];
 		int iRead = inPut.read(bData);
 		bData = changeIfRequired(bData);
-		/*
-		if(bData!=null && bData.length > 0){
-			
-			for(byte b=0; b < bData.length; b++){
-				if(bData[b] == 10){
-					bData[b]=13;
-					b++;
-					bData[b]=10;
-				}
-			}
-			
-		}*/
-		int i = -1;
+		
 		while(iRead != -1){
 			outStream.write(bData, 0, iRead);
 			iRead = inPut.read(bData);
 			if(iRead != -1) {
 				bData = changeIfRequired(bData);
 			}
-			/*
-			for(byte b=0; b < bData.length; b++){
-				if(bData[b] == 10){
-					bData[b]=13;
-					b++;
-					bData[b]=10;
-				}
-			}*/
-			
 		}	
 		
 		inPut.close();
