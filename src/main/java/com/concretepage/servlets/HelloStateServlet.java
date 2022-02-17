@@ -22,6 +22,11 @@ public class HelloStateServlet extends HttpServlet   {
 		doGet(request,response);
 	}
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    	
+    	System.out.println("User detail : "+request.getHeader("User-Agent"));
+    	
+    	
+    	
         response.setContentType("text/plain");
         response.setHeader("Content-disposition", "attachment; filename=sample.txt");
         //PrintWriter out = response.getWriter();
@@ -64,11 +69,11 @@ public class HelloStateServlet extends HttpServlet   {
     			len++;
     		}
     	} 
-    	final byte[] result = new byte[len-1];              // prepare an exact sized array
-    	//System.arraycopy(transformed, 0, result, 0, len);
-    	for(int i=0; i < result.length; i++){
-    		result[i] = original[i];
-    	}
+    	final byte[] result = new byte[len];              // prepare an exact sized array
+    	System.arraycopy(transformed, 0, result, 0, len);
+    	//for(int i=0; i < result.length; i++){
+    	//	result[i] = original[i];
+    	//}
     	return result;
     }
 } 
