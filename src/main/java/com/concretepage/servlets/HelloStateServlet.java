@@ -41,7 +41,7 @@ public class HelloStateServlet extends HttpServlet   {
 		for(byte b : "\r\n".getBytes(StandardCharsets.UTF_8)){
 			System.out.println(b);
 		}*/
-		byte[] bData = new byte[100];
+		byte[] bData = new byte[1024];
 		int iRead = inPut.read(bData);
 		bData = changeIfRequired(bData);
 		/*
