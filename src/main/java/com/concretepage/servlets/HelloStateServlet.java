@@ -33,7 +33,7 @@ public class HelloStateServlet extends HttpServlet   {
         //File file = ResourceUtils.getFile("abc.txt");
         //InputStream inPut = new FileInputStream(file);
         //InputStream inPut = getClass().getResourceAsStream("abc.txt");
-        Resource resource = new ClassPathResource("classpath:abc2.txt");
+        Resource resource = new ClassPathResource("classpath:gistfile1.txt");
         InputStream inPut = resource.getInputStream();
         ServletOutputStream outStream = response.getOutputStream();
 		
