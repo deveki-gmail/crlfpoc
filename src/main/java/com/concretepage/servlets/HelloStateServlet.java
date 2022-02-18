@@ -18,6 +18,9 @@ import java.util.*;
 import java.nio.charset.*;
 public class HelloStateServlet extends HttpServlet   {
 	private static final long serialVersionUID = 1L;
+	
+	boolean flag = false;
+	
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException{
 		doGet(request,response);
 	}
@@ -38,15 +41,24 @@ public class HelloStateServlet extends HttpServlet   {
         ServletOutputStream outStream = response.getOutputStream();
 		
         byte[] bData = new byte[1024];
+        byte[] tempByteArray = null;
 		int iRead = inPut.read(bData);
-		byte[] tempByteArray = new byte[iRead];
-		System.arraycopy(bData, 0, tempByteArray, 0, iRead);
-		bData = tempByteArray;
-		bData = changeIfRequired(bData, iRead);
+		if(flag){
+			tempByteArray = new byte[iRead];
+			System.arraycopy(bData, 0, tempByteArray, 0, iRead);
+			bData = tempByteArray;
+			bData = changeIfRequired(bData, iRead);
+		}
 		while(iRead != -1){
-			outStream.write(bData, 0, bData.length);
+			
+			if(flag){
+				outStream.write(bData, 0, bData.length);
+			}else{
+				outStream.write(bData, 0, iRead);
+			}
+			
 			iRead = inPut.read(bData);
-			if(iRead != -1) {
+			if(iRead != -1 && flag) {
 				tempByteArray = new byte[iRead];
 				System.arraycopy(bData, 0, tempByteArray, 0, iRead);
 				bData = tempByteArray;
