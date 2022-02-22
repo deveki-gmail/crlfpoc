@@ -19,7 +19,7 @@ import java.nio.charset.*;
 public class HelloStateServlet extends HttpServlet   {
 	private static final long serialVersionUID = 1L;
 	
-	boolean flag = false;
+	boolean flag = true;
 	
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException{
 		doGet(request,response);
