@@ -36,9 +36,27 @@ public class HelloStateServlet extends HttpServlet   {
         //File file = ResourceUtils.getFile("abc.txt");
         //InputStream inPut = new FileInputStream(file);
         //InputStream inPut = getClass().getResourceAsStream("abc.txt");
-        Resource resource = new ClassPathResource("classpath:10mb.txt");
+        String val = request.getParameter("size");
+        Resource resource  = null;
+        
+        if("10mb".equalsIgnoreCase(val)){
+        	resource = new ClassPathResource("classpath:10mb.txt");
+        }
+        if("20mb".equalsIgnoreCase(val)){
+        	resource = new ClassPathResource("classpath:20mb.txt");
+        }
+        if("25mb".equalsIgnoreCase(val)){
+        	resource = new ClassPathResource("classpath:25mb.txt");
+        }
+        
+        if(resource == null){
+        	resource = new ClassPathResource("classpath:10mb.txt");
+        }
+        
+        
         InputStream inPut = resource.getInputStream();
         ServletOutputStream outStream = response.getOutputStream();
+        long time_start = new Date().getTime();
 		
         byte[] bData = new byte[1024];
         byte[] tempByteArray = null;
@@ -66,6 +84,8 @@ public class HelloStateServlet extends HttpServlet   {
 			}
 		}	
 		
+		long time_end = new Date().getTime();
+		System.out.println("Total taken time for size "+val+"   : "+(time_end - time_start) +" millies ");
 		inPut.close();
 		outStream.flush();
 		outStream.close();
